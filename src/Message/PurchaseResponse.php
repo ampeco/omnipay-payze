@@ -10,7 +10,7 @@ class PurchaseResponse extends Response
             && $this->getPayment()
             && isset($this->getPayment()['transactionId'])
             && isset($this->getPayment()['status'])
-            && $this->getPayment()['status'] === self::PAYMENT_STATUS_DRAFT;
+            && $this->getPayment()['status'] === self::EXPECTED_STATUS_DRAFT;
     }
 
     public function getTransactionReference(): string

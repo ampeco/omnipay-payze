@@ -41,8 +41,6 @@ abstract class AbstractRequest extends OmniPayAbstractRequest
     {
         $endpointAdditionalParams = $this->addEndpointAdditionalParams($data);
 
-        $payload = $this->unsetUnnecessaryParams($data);
-
         $response = $this->httpClient->request(
             $this->getRequestMethod(),
             $this->getBaseUrl() . $endpointAdditionalParams,
@@ -74,12 +72,5 @@ abstract class AbstractRequest extends OmniPayAbstractRequest
         }
 
         return $endpoint;
-    }
-
-    private function unsetUnnecessaryParams(array $data): array
-    {
-        unset($data['transactionId']);
-
-        return $data;
     }
 }

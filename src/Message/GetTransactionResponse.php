@@ -4,7 +4,6 @@ namespace Ampeco\OmnipayPayze\Message;
 
 class GetTransactionResponse extends Response
 {
-    protected const EXPECTED_STATUS = 'Captured';
     public function isSuccessful() : bool
     {
         return parent::isSuccessful()
@@ -13,7 +12,6 @@ class GetTransactionResponse extends Response
             && isset($this->getDataValue()[0])
             && isset($this->getDataValue()[0]['transactionId'])
             && isset($this->getDataValue()[0]['status'])
-            && $this->getDataValue()[0]['status'] === static::EXPECTED_STATUS
             && isset($this->getDataValue()[0]['cardPayment']['token'])
             && isset($this->getDataValue()[0]['cardPayment']['cardMask']);
     }
@@ -31,6 +29,11 @@ class GetTransactionResponse extends Response
     public function getCardExpiration(): ?string
     {
         return $this->getDataValue()[0]['cardPayment']['cardExpiration'] ?? null;
+    }
+
+    public function getTransactionStatus(): string
+    {
+        return $this->getDataValue()[0]['status'];
     }
 
     private function getDataValue(): ?array

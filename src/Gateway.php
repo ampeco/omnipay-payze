@@ -6,10 +6,9 @@ use Ampeco\OmnipayPayze\Message\AuthorizeRequest;
 use Ampeco\OmnipayPayze\Message\CaptureRequest;
 use Ampeco\OmnipayPayze\Message\CreateCardNotification;
 use Ampeco\OmnipayPayze\Message\CreateCardRequest;
-use Ampeco\OmnipayPayze\Message\GetAuthorizedTransactionRequest;
 use Ampeco\OmnipayPayze\Message\GetTransactionRequest;
-use Ampeco\OmnipayPayze\Message\GetVoidedTransactionRequest;
 use Ampeco\OmnipayPayze\Message\PurchaseRequest;
+use Ampeco\OmnipayPayze\Message\Response;
 use Ampeco\OmnipayPayze\Message\VoidRequest;
 use Omnipay\Common\AbstractGateway;
 use Omnipay\Common\Message\RequestInterface;
@@ -64,16 +63,6 @@ class Gateway extends AbstractGateway
         return $this->createRequest(GetTransactionRequest::class, $options);
     }
 
-    public function getVoidedTransaction(array $options = array()): RequestInterface
-    {
-        return $this->createRequest(GetVoidedTransactionRequest::class, $options);
-    }
-
-    public function getAuthorizedTransaction(array $options = array()): RequestInterface
-    {
-        return $this->createRequest(GetAuthorizedTransactionRequest::class, $options);
-    }
-
     public function getCreateCardAmount(): float
     {
         return 1;
@@ -87,5 +76,20 @@ class Gateway extends AbstractGateway
     public function getAvailableCurrencies(): array
     {
         return ['GEL'];
+    }
+
+    public function getCapturedTransactionStatus(): string
+    {
+        return Response::EXPECTED_STATUS_CAPTURED;
+    }
+
+    public function getVoidedTransactionStatus(): string
+    {
+        return Response::EXPECTED_STATUS_REFUNDED;
+    }
+
+    public function getAuthorizedTransactionStatus(): string
+    {
+        return Response::EXPECTED_STATUS_BLOCKED;
     }
 }
