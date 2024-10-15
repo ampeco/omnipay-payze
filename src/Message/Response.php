@@ -10,6 +10,7 @@ class Response extends AbstractResponse
     public const EXPECTED_STATUS_CAPTURED = 'Captured';
     public const EXPECTED_STATUS_BLOCKED = 'Blocked';
     public const EXPECTED_STATUS_REFUNDED = 'Refunded';
+    public const EXPECTED_STATUS_REJECTED = 'Rejected';
     protected const EXPECTED_STATUS_DRAFT = 'Draft';
 
     public function __construct(RequestInterface $request, array $data, protected int $code)

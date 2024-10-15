@@ -92,4 +92,9 @@ class Gateway extends AbstractGateway
     {
         return Response::EXPECTED_STATUS_BLOCKED;
     }
+
+    public function getRejectedTransactionStatus(): string
+    {
+        return Response::EXPECTED_STATUS_REJECTED;
+    }
 }

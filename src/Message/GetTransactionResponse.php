@@ -16,19 +16,31 @@ class GetTransactionResponse extends Response
             && isset($this->getDataValue()[0]['cardPayment']['cardMask']);
     }
 
-    public function getCardToken(): string
+    public function getCardReference(): string
     {
         return $this->getDataValue()[0]['cardPayment']['token'];
     }
 
-    public function getCardMask(): string
+    public function getPaymentMethod(): \stdClass
     {
-        return $this->getDataValue()[0]['cardPayment']['cardMask'];
-    }
+        $paymentMethod = new \stdClass();
 
-    public function getCardExpiration(): ?string
-    {
-        return $this->getDataValue()[0]['cardPayment']['cardExpiration'] ?? null;
+        $paymentMethod->imageUrl = '';
+        $paymentMethod->last4 = substr($this->getDataValue()[0]['cardPayment']['cardMask'], -4);
+        $paymentMethod->cardType = isset($this->getDataValue()[0]['network']) ? $this->getDataValue()[0]['network'] : '';
+
+        if (isset($this->getDataValue()[0]['cardPayment']['cardExpiration'])
+            && strlen($this->getDataValue()[0]['cardPayment']['cardExpiration']) === 4) {
+            $expireData = $this->getDataValue()[0]['cardPayment']['cardExpiration'];
+
+            $paymentMethod->expirationMonth = (int) substr($expireData, 0, 2);
+            $paymentMethod->expirationYear = (int) \DateTime::createFromFormat(
+                'y',
+                substr($expireData, -2),
+            )->format('Y');
+        }
+
+        return $paymentMethod;
     }
 
     public function getTransactionStatus(): string
