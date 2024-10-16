@@ -33,10 +33,10 @@ class GetTransactionResponse extends Response
             && strlen($this->getDataValue()[0]['cardPayment']['cardExpiration']) === 4) {
             $expireData = $this->getDataValue()[0]['cardPayment']['cardExpiration'];
 
-            $paymentMethod->expirationMonth = (int) substr($expireData, 0, 2);
+            $paymentMethod->expirationMonth = (int) substr($expireData, -2);
             $paymentMethod->expirationYear = (int) \DateTime::createFromFormat(
                 'y',
-                substr($expireData, -2),
+                substr($expireData, 0, 2),
             )->format('Y');
         }
 
